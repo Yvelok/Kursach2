@@ -9,7 +9,7 @@ int main() {
     return 0;
 }
 
-//////////////ghgh
+//////////////
 
 #include <stdio.h>
 
