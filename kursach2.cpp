@@ -1,17 +1,8 @@
-﻿
-#include <iostream>
-using namespace std;
-string name = "Danil";
-
-int main() {
-    cout << pow(3, 10) << endl;
-    cout << name << endl;
-    return 0;
-}
-
-//////////////f
+﻿////////////// 15.10.26 с ноута
 
 #include <stdio.h>
+#include <iostream>
+using namespace std;
 
 
 using RUB = unsigned long long int;
@@ -48,6 +39,7 @@ void alice_print()
 }
 
 
+
 void simulation()
 {
     int year = 2026;
@@ -55,14 +47,16 @@ void simulation()
     while (not (year == 2027 and month == 9)) {
 
         alice_salary(year, month);
+        printf("Month/Year - %u", month);
+        printf("/%u", year);
+        printf("  ");
+        alice_print();
         // alice_car();
         // alice_mortgage();
         // alice_cat();
         // alice_rent();
         // alice_tax();
         // alice_bank_income();
-
-        // bob_salary();
 
         ++month;
         if (month == 13) {
@@ -72,15 +66,12 @@ void simulation()
     }
 }
 
-
-int main()
-{
+int main() {
     alice_init();
-
     simulation();
 
-    alice_print();
 }
+
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"  Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
 
