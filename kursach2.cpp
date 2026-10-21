@@ -1,4 +1,6 @@
-﻿////////////// 15.10.26 с ноута
+﻿////////////// 21.10.26 с пк
+// добавить проверку покупки уже квартиры (если mortgage_debt = 0)
+// & - ссылка на 
 
 #include <stdio.h>
 #include <iostream>
@@ -18,7 +20,7 @@ struct Person alice;
 
 void alice_init()
 {
-    alice.cash = 20'000;
+    alice.cash = 400'000;
     alice.salary = 80'000;
 }
 
@@ -32,10 +34,66 @@ void alice_salary(const int year, const int month)
     alice.cash += alice.salary;
 }
 
+void alice_inflation() {
 
-void alice_print()
+}
+
+void alice_rent(const bool& housing) {
+    if (housing == 0) {
+        int rent_cost = 35'000;
+        alice.cash -= rent_cost;
+    }
+
+}
+
+
+void alice_mortgage(bool& housing) {
+    int down_payment = 1'000'000;
+    int apartment_price = 7'000'000;
+    int mortgage_debt = apartment_price - down_payment;
+    int mortgage_term = 10;  // years of mortgage.  MB сделать ввод??
+    int mortgage_payment = mortgage_debt / (mortgage_term * 12);
+    if (housing == 0) {
+        if (alice.cash >= down_payment) {
+            alice.cash -= down_payment;
+            printf(" Alice took out a mortgage!!!\n");
+            housing = 1;
+        }
+    } 
+    else {
+            alice.cash -= mortgage_payment;
+        }
+    }
+   
+
+
+void car() {
+
+}
+
+void alice_cat() {
+
+}
+
+void alice_tax() {
+
+}
+
+void alice_bank_income() {
+
+}
+
+
+
+void alice_print(bool& housing)
 {
-    printf("Alice cash = %llu\n", alice.cash);
+    printf("Alice cash = %llu", alice.cash);
+    if (housing == 1) {
+        printf("  Mortgage\n");
+    }
+    else {
+        printf("  Rent\n");
+    }
 }
 
 
@@ -44,20 +102,16 @@ void simulation()
 {
     int year = 2026;
     int month = 9;
+    bool housing = 0; // 0 - rent,  1 - mortgage
     while (not (year == 2027 and month == 9)) {
 
         alice_salary(year, month);
         printf("Month/Year - %u", month);
         printf("/%u", year);
         printf("  ");
-        alice_print();
-        // alice_car();
-        // alice_mortgage();
-        // alice_cat();
-        // alice_rent();
-        // alice_tax();
-        // alice_bank_income();
-
+        alice_print(housing);
+        alice_rent(housing);
+        alice_mortgage(housing);
         ++month;
         if (month == 13) {
             ++year;
