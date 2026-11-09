@@ -1,5 +1,5 @@
-﻿////////////// 28.10.26 с пк
-// исправлена ипотека, добавлена ее выплата
+﻿////////////// 09.11.26 с пк
+// добавлен возврат налога с ипотеки
 
 
 #include <stdio.h>
@@ -97,6 +97,19 @@ void alice_bank_income() {
 
 }
 
+void alice_tax_refund(short& mortgage_tax_refund, int& apartment_price, short& housing, const int year, const int month, short& tax_year, short& tax_month) {
+    if (housing == 2 and mortgage_tax_refund == 0) {
+        tax_year = year + 1;
+        tax_month = month;
+        mortgage_tax_refund = 1;
+        printf("Alice is waiting refound from mortgage!\n");
+    }
+     if (mortgage_tax_refund == 1 and year == tax_year and month == tax_month) {
+        alice.cash += 260'000;
+        mortgage_tax_refund = 2;
+        printf("Alice gets refound from mortgage!\n");
+    }
+}
 
 
 void alice_print(short& housing)
@@ -122,11 +135,17 @@ void simulation()
     short housing = 0;// 0 - rent,  1 - mortgage, 2 - already got
     int down_payment = 1'000'000;
     int apartment_price = 1'200'000;
-    int mortgage_debt = apartment_price - down_payment;
     int mortgage_term = 1;  // years of mortgage.  MB сделать ввод??
+    short mortgage_tax_refund = 0; // 0 - no refund, 1 - waiting for refund, 2 - refund got
+    short tax_year;
+    short tax_month;
+
+
+    int mortgage_debt = apartment_price - down_payment;
     int mortgage_number_of_payments = mortgage_term * 12;
     int mortgage_payment = mortgage_debt / (mortgage_number_of_payments);
-    while (not (year == 2028 and month == 9)) {
+
+    while (not (year == 2030 and month == 9)) {
 
         alice_salary(year, month);
         printf("Month/Year - %u", month);
@@ -135,6 +154,7 @@ void simulation()
         alice_print(housing);
         alice_rent(housing);
         alice_mortgage(housing, down_payment, apartment_price, mortgage_debt, mortgage_term, mortgage_number_of_payments, mortgage_payment);
+        alice_tax_refund(mortgage_tax_refund, apartment_price, housing, year, month, tax_year, tax_month);
         ++month;
         if (month == 13) {
             ++year;
